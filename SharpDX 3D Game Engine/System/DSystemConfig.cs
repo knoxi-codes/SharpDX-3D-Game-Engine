@@ -13,23 +13,31 @@ namespace SharpDX_3D_Game_Engine.System
         public int Height { get; set; }
 
         public static FormBorderStyle BorderStyle { get; set; }
-        public static bool FullScreen { get; set; }
+        public static bool FullScreen { get; private set; }
+        public static bool VerticalSyncEnabled { get; private set; }
 
         public DSystemConfig(string title, int width, int height, bool fullScreen, bool vSync)
-        { 
+        {
             FullScreen = fullScreen;
             Title = title;
+            VerticalSyncEnabled = vSync;
 
             if (!FullScreen)
             {
                 Width = width;
                 Height = height;
             }
-            else 
+            else
             {
                 Width = Screen.PrimaryScreen.Bounds.Width;
                 Height = Screen.PrimaryScreen.Bounds.Height;
             }
+        }
+
+        static DSystemConfig()
+        { 
+            VerticalSyncEnabled = false;
+            BorderStyle = FormBorderStyle.None;
         }
     }
 }

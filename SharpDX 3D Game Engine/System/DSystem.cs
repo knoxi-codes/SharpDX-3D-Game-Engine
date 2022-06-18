@@ -19,7 +19,7 @@ namespace SharpDX_3D_Game_Engine.System
         public DSystem() { }
 
         public static void StartRenderForm(string title, int width, int height, bool vSync, bool fullScreen = true, int testTimeSeconds = 0)
-        { 
+        {
             DSystem system = new DSystem();
             system.Initialize(title, width, height, vSync, fullScreen, testTimeSeconds);
             system.RunRenderForm();
@@ -34,15 +34,13 @@ namespace SharpDX_3D_Game_Engine.System
 
             InitializeWindows(title);
 
-            Renderform.BackColor = Color.Black;
-
             if (Graphics == null)
-            { 
+            {
                 Graphics = new DGraphics();
-                result = Graphics.Initialize(Config);
+                result = Graphics.Initialize(Config, Renderform.Handle);
             }
             if (Input == null)
-            { 
+            {
                 Input = new DInput();
                 Input.Initialize();
             }
@@ -51,12 +49,13 @@ namespace SharpDX_3D_Game_Engine.System
         }
 
         private void InitializeWindows(string title)
-        { 
+        {
             int width = Screen.PrimaryScreen.Bounds.Width;
             int height = Screen.PrimaryScreen.Bounds.Height;
 
             Renderform = new RenderForm(title)
             {
+                FormBorderStyle = DSystemConfig.BorderStyle,
                 ClientSize = new Size(Config.Width, Config.Height),
             };
 
@@ -84,7 +83,7 @@ namespace SharpDX_3D_Game_Engine.System
         }
 
         public void Shutdown()
-        { 
+        {
             Renderform?.Dispose();
             Renderform = null;
 

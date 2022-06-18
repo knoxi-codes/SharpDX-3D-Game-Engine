@@ -9,23 +9,40 @@ namespace SharpDX_3D_Game_Engine.Graphics
 {
     public class DGraphics
     {
-        public bool Initialize(DSystemConfig Config)
+        private DDX11 D3D { get; set; }
+        public bool Initialize(DSystemConfig Config, IntPtr windowHandle)
         {
-            return true;
+            try 
+            {
+                D3D = new DDX11();
+
+                if (!D3D.Initialize(Config, windowHandle))
+                    return false;
+
+                return true;
+            }
+            catch 
+            {
+                return true;
+            }
         }
 
         public void Shutdown()
-        { 
-            
+        {
+            D3D?.ShutDown();
+            D3D = null;
         }
 
         public bool Frame()
         {
-            return true;
+            return Render();
         }
 
         public bool Render()
         {
+            D3D.BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
+
+            D3D.EndScene();
             return true;
         }
     }
